@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Profi Education</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Golos+Text:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#152a6e;--navy2:#0e1e52;--orange:#ea742a;--paper:#faf8f4;--ink:#101a3c;--grey:#78809a;--line:#e6e2da;--white:#fff;--ok:#1f9d6b;--bad:#d9483b}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{font-family:"Golos Text",system-ui,sans-serif;color:var(--ink);background:var(--paper);min-height:100vh;padding-bottom:30px;overflow-x:hidden}
+.hidden{display:none!important}
+.osw{font-family:Oswald,sans-serif}
+header{position:relative;padding:18px 18px 0;overflow:hidden}
+header::after{content:"";position:absolute;right:-70px;top:-80px;width:190px;height:190px;border-radius:50%;background:var(--orange);z-index:0}
+.bar{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:8px}
+.logo svg{width:38px;height:38px}
+.logo b{font:700 22px Oswald;color:var(--orange);line-height:.9;display:block}
+.logo small{font:800 9px "Golos Text";letter-spacing:.08em;color:var(--navy)}
+.lang{display:flex;background:var(--white);border-radius:999px;padding:3px;box-shadow:0 2px 10px rgba(14,30,82,.12)}
+.lang button{border:0;background:none;font:700 12px "Golos Text";padding:6px 10px;border-radius:999px;color:var(--grey);cursor:pointer}
+.lang button.on{background:var(--navy);color:var(--white)}
+h1{position:relative;z-index:1;font:700 44px/1 Oswald;color:var(--navy);margin:22px 0 6px;text-transform:uppercase;letter-spacing:.005em}
+.lead{position:relative;z-index:1;color:var(--grey);font-size:14px;margin:0 0 14px;max-width:300px}
+nav{display:flex;gap:22px;border-bottom:2px solid var(--line);padding:0 18px;position:sticky;top:0;background:var(--paper);z-index:5}
+nav button{border:0;background:none;padding:14px 0 12px;font:600 15px Oswald;letter-spacing:.06em;text-transform:uppercase;color:var(--grey);cursor:pointer;position:relative}
+nav button.on{color:var(--navy)}
+nav button.on::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:4px;border-radius:4px;background:var(--orange)}
+main{padding:18px;max-width:560px;margin:0 auto}
+
+/* TEST */
+.intro{background:var(--navy2);color:var(--white);border-radius:28px;padding:22px;position:relative;overflow:hidden}
+.intro::before{content:"";position:absolute;inset:8px;border:3px solid var(--orange);border-radius:30px;transform:rotate(-2deg);pointer-events:none}
+.intro h2{font:700 30px/1.05 Oswald;text-transform:uppercase;margin:0 0 10px}
+.intro p{margin:0 0 6px;color:#c9d2f0;font-size:14px}
+.facts{display:flex;gap:8px;margin:14px 0 4px;flex-wrap:wrap}
+.facts span{border:2px solid rgba(255,255,255,.5);border-radius:999px;padding:6px 12px;font-weight:700;font-size:13px}
+.btn{display:block;width:100%;border:0;border-radius:18px;padding:16px;margin-top:16px;font:700 16px "Golos Text";background:var(--orange);color:var(--white);cursor:pointer}
+.btn.navy{background:var(--navy)}
+.btn.ghost{background:none;color:var(--navy);border:2px solid var(--navy)}
+.qhead{display:flex;align-items:baseline;justify-content:space-between}
+.qnum{font:700 54px/1 Oswald;color:var(--navy)}
+.qnum small{font-size:22px;color:var(--grey)}
+.track{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin:10px 0 22px}
+.track i{display:block;height:100%;background:var(--orange);transition:width .3s}
+.q{font-size:22px;font-weight:700;line-height:1.3;margin-bottom:18px}
+.opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--white);border:2px solid var(--line);border-radius:18px;padding:14px;margin-bottom:10px;font:600 16px "Golos Text";color:var(--ink);cursor:pointer}
+.opt b{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--paper);color:var(--navy);font:700 16px Oswald}
+.opt.ok{border-color:var(--ok);background:#e9f7f0}.opt.ok b{background:var(--ok);color:#fff}
+.opt.bad{border-color:var(--bad);background:#fcecea}.opt.bad b{background:var(--bad);color:#fff}
+.result{text-align:center}
+.badge{display:inline-grid;place-items:center;width:170px;height:170px;border-radius:50%;background:var(--navy);color:var(--white);margin:6px auto 14px;position:relative}
+.badge::after{content:"";position:absolute;width:56px;height:56px;border-radius:50%;background:var(--orange);right:-10px;top:50%;transform:translateY(-50%)}
+.badge b{font:700 54px/1 Oswald;position:relative;z-index:1}
+.badge small{display:block;font-size:13px;color:#c9d2f0;margin-top:2px}
+.result h3{font:700 28px Oswald;text-transform:uppercase;color:var(--navy);margin:0}
+.result p{color:var(--grey);margin:6px 0 0}
+
+/* GROUPS */
+.toggle{display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--white);border-radius:16px;padding:4px;border:2px solid var(--line);margin-bottom:12px}
+.toggle button{border:0;background:none;padding:10px 4px;border-radius:12px;font:700 13px "Golos Text";color:var(--grey);cursor:pointer}
+.toggle button.on{background:var(--navy);color:var(--white)}
+.board{background:var(--navy2);border-radius:26px;padding:8px;position:relative}
+.board::before{content:"";position:absolute;inset:-7px -5px -4px -6px;border:3px solid var(--orange);border-radius:30px;transform:rotate(-1.2deg);pointer-events:none}
+.row{display:flex;align-items:center;gap:14px;padding:14px 12px;border-radius:0;color:var(--white);cursor:pointer;position:relative}
+.row+.row{border-top:1px solid rgba(255,255,255,.12)}
+.row:active{background:rgba(255,255,255,.08)}
+.row .tm{font:600 24px/1 Oswald;min-width:64px}
+.row .tm small{display:block;font:500 12px "Golos Text";color:#9fb0e6;margin-top:4px}
+.row .info{flex:1;min-width:0}
+.row .info b{display:block;font-size:16px}
+.row .info span{font-size:12.5px;color:#c9d2f0}
+.seats{text-align:right;font-size:11px;color:#c9d2f0;font-weight:600}
+.seats .dots{display:flex;gap:3px;justify-content:flex-end;margin-bottom:5px}
+.seats .dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.25)}
+.seats .dots i.f{background:var(--orange)}
+.hot{color:#ffb27a}
+.empty{color:#c9d2f0;text-align:center;padding:28px 10px;font-size:14px}
+.note{font-size:12px;color:var(--grey);text-align:center;margin-top:14px}
+
+/* COURSES */
+.course{background:var(--white);border:2px solid var(--line);border-radius:24px;padding:18px;margin-bottom:12px}
+.course .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.course h3{font:700 24px Oswald;text-transform:uppercase;color:var(--navy);margin:0}
+.course .lv{font-size:12px;font-weight:700;color:var(--orange);white-space:nowrap}
+.course p{color:#47506d;font-size:14px;line-height:1.45;margin:8px 0 12px}
+.link{border:0;background:none;padding:0;font:700 14px "Golos Text";color:var(--navy);cursor:pointer;text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--orange);text-decoration-thickness:2px}
+.perk{display:flex;gap:12px;align-items:center;background:var(--navy);color:var(--white);border-radius:22px;padding:16px;margin-top:6px}
+.perk i{font-style:normal;font-size:26px}
+.perk b{display:block}
+.perk span{font-size:13px;color:#c9d2f0}
+
+/* sheet */
+.veil{position:fixed;inset:0;background:rgba(16,26,60,.5);z-index:20;opacity:0;pointer-events:none;transition:.2s}
+.veil.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:21;background:var(--paper);border-radius:28px 28px 0 0;padding:24px 20px calc(22px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .25s;max-width:560px;margin:0 auto}
+.sheet.on{transform:none}
+.sheet h3{font:700 32px/1 Oswald;color:var(--navy);text-transform:uppercase;margin:0 0 4px}
+.sheet .sub{color:var(--grey);font-weight:600}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin:18px 0 4px;font-size:15px}
+.kv span{color:var(--grey)}
+.kv b{font-weight:700}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <div class="logo">
+      <svg viewBox="0 0 100 100"><rect x="4" y="12" width="66" height="76" fill="#ea742a"/><rect x="8" y="16" width="58" height="68" fill="#152a6e"/><circle cx="70" cy="50" r="20" fill="#ea742a"/></svg>
+      <div><b>PROFI</b><small>EDUCATION</small></div>
+    </div>
+    <div class="lang"><button data-l="uz">UZ</button><button data-l="ru">RU</button></div>
+  </div>
+  <h1 id="h1"></h1>
+  <p class="lead" id="lead"></p>
+</header>
+
+<nav>
+  <button data-tab="test" class="on" data-i18n="tabTest"></button>
+  <button data-tab="groups" data-i18n="tabGroups"></button>
+  <button data-tab="courses" data-i18n="tabCourses"></button>
+</nav>
+
+<main>
+  <section id="tab-test">
+    <div id="tIntro" class="intro">
+      <h2 data-i18n="testTitle"></h2>
+      <p data-i18n="testText"></p>
+      <div class="facts"><span data-i18n="f1"></span><span data-i18n="f2"></span><span>A1 → B2</span></div>
+      <button class="btn" id="tStart" data-i18n="start"></button>
+    </div>
+    <div id="tRun" class="hidden">
+      <div class="qhead"><div class="qnum"><span id="qn">01</span><small id="qt">/15</small></div><button class="link" id="tQuit" data-i18n="quit"></button></div>
+      <div class="track"><i id="track" style="width:0"></i></div>
+      <div class="q" id="q"></div>
+      <div id="opts"></div>
+    </div>
+    <div id="tDone" class="result hidden">
+      <div class="badge"><div><b id="rCefr">B1</b><small id="rScore"></small></div></div>
+      <h3 id="rLevel"></h3>
+      <p data-i18n="recommend"></p>
+      <div class="board" style="margin-top:16px;text-align:left"><div id="rGroup"></div></div>
+      <button class="btn" id="rJoin" data-i18n="joinGroup"></button>
+      <button class="btn ghost" id="rSend" data-i18n="sendResult"></button>
+    </div>
+  </section>
+
+  <section id="tab-groups" class="hidden">
+    <div class="toggle" id="dayToggle">
+      <button data-d="all" class="on" data-i18n="all"></button>
+      <button data-d="toq"></button>
+      <button data-d="juft"></button>
+    </div>
+    <div class="board"><div id="rows"></div></div>
+    <div class="note" data-i18n="groupsNote"></div>
+  </section>
+
+  <section id="tab-courses" class="hidden">
+    <div id="courses"></div>
+    <div class="perk"><i>🎓</i><div><b id="perkT"></b><span data-i18n="perk"></span></div></div>
+  </section>
+</main>
+
+<div class="veil" id="veil"></div>
+<div class="sheet" id="sheet">
+  <h3 id="sLevel"></h3>
+  <div class="sub" id="sCourse"></div>
+  <div class="kv" id="sKv"></div>
+  <button class="btn" id="sJoin" data-i18n="joinThis"></button>
+</div>
+
+<script>
+const tg = window.Telegram && Telegram.WebApp;
+if (tg) { tg.ready(); tg.expand(); try { tg.setHeaderColor('#faf8f4'); tg.setBackgroundColor('#faf8f4'); } catch(e){} }
+const $ = id => document.getElementById(id);
+const haptic = t => { try { tg.HapticFeedback.impactOccurred(t || 'light'); } catch(e){} };
+const inTg = () => tg && tg.platform !== "unknown";
+const params = new URLSearchParams(location.search);
+let lang = params.get("lang") === "ru" ? "ru" : (params.get("lang") === "uz" ? "uz" : ((tg && tg.initDataUnsafe?.user?.language_code === "ru") ? "ru" : "uz"));
+let B, day = "all";
+
+const L = {
+  uz: {h1:"Ingliz tili kurslari", lead:"Darslardan keyin — universitet binosidan chiqmasdan.", tabTest:"Test", tabGroups:"Guruhlar", tabCourses:"Kurslar",
+    testTitle:"Bepul daraja testi", testText:"15 ta savol: oddiydan qiyinga. Natija va sizga mos guruh darhol chiqadi.", f1:"15 savol", f2:"~5 daqiqa",
+    start:"Testni boshlash", quit:"Chiqish", recommend:"Sizga mos guruh:", joinGroup:"Shu guruhga yozilish", sendResult:"Natijani botga yuborish",
+    all:"Hammasi", groupsNote:"Bo'sh joylar soni — namuna. Guruhni bosing va yoziling.", perk:"Guruhga yozilishda «talabaman» deb belgilang",
+    seats:n=>`${n} ta joy`, start_:m=>`Start: ${m}`, joinThis:"Shu guruhga yozilish", viewGroups:"Guruhlarni ko'rish →",
+    kDays:"Kunlar", kTime:"Vaqt", kSeats:"Bo'sh joy", kStart:"Boshlanish", kRoom:"Xona", noGroups:"Bu kunlarda ochiq guruh yo'q", score:(s,n)=>`${s}/${n} to'g'ri`},
+  ru: {h1:"Курсы английского", lead:"Сразу после пар — не выходя из здания университета.", tabTest:"Тест", tabGroups:"Группы", tabCourses:"Курсы",
+    testTitle:"Бесплатный тест уровня", testText:"15 вопросов: от простого к сложному. Результат и подходящая группа — сразу.", f1:"15 вопросов", f2:"~5 минут",
+    start:"Начать тест", quit:"Выйти", recommend:"Подходящая группа:", joinGroup:"Записаться в эту группу", sendResult:"Отправить результат в бот",
+    all:"Все", groupsNote:"Количество мест — пример. Нажмите на группу, чтобы записаться.", perk:"При записи отметьте «я студент»",
+    seats:n=>`мест: ${n}`, start_:m=>`Старт: ${m}`, joinThis:"Записаться в эту группу", viewGroups:"Смотреть группы →",
+    kDays:"Дни", kTime:"Время", kSeats:"Свободно", kStart:"Старт", kRoom:"Кабинет", noGroups:"В эти дни нет открытых групп", score:(s,n)=>`${s}/${n} верно`}
+};
+const MRU = {Noyabr:"Ноябрь", Dekabr:"Декабрь", Yanvar:"Январь"};
+const tr = k => L[lang][k];
+const loc = o => (o && typeof o === "object") ? o[lang] : o;
+
+function toBot(payload, startParam) {
+  payload.lang = lang;
+  const viaKeyboard = inTg() && tg.initDataUnsafe && !tg.initDataUnsafe.query_id;
+  if (viaKeyboard) { tg.sendData(JSON.stringify(payload)); return; }
+  const url = `https://t.me/${B.bot_username}?start=${startParam}_${lang}`;
+  if (inTg()) { tg.openTelegramLink(url); setTimeout(() => tg.close(), 300); } else location.href = url;
+}
+
+function applyLang() {
+  document.documentElement.lang = lang;
+  document.querySelectorAll(".lang button").forEach(b => b.classList.toggle("on", b.dataset.l === lang));
+  document.querySelectorAll("[data-i18n]").forEach(el => el.textContent = tr(el.dataset.i18n));
+  $("h1").textContent = tr("h1"); $("lead").textContent = tr("lead");
+  document.querySelector('[data-d=toq]').textContent = B.days.toq[lang];
+  document.querySelector('[data-d=juft]').textContent = B.days.juft[lang];
+  $("perkT").textContent = loc(B.student_discount);
+  renderRows(); renderCourses();
+  if (!$("tDone").classList.contains("hidden")) showResult();
+  if (!$("tRun").classList.contains("hidden")) renderQ();
+}
+document.querySelectorAll(".lang button").forEach(b => b.onclick = () => { haptic(); lang = b.dataset.l; applyLang(); });
+
+function show(tab) {
+  document.querySelectorAll("nav button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
+  ["test","groups","courses"].forEach(t => $("tab-"+t).classList.toggle("hidden", t !== tab));
+}
+document.querySelectorAll("nav button").forEach(b => b.onclick = () => { haptic(); show(b.dataset.tab); });
+
+/* ---- test ---- */
+let qi = 0, score = 0, locked = false;
+function renderQ() {
+  const [q, opts] = B.test[qi], n = B.test.length;
+  $("qn").textContent = String(qi + 1).padStart(2, "0"); $("qt").textContent = "/" + n;
+  $("track").style.width = (qi / n * 100) + "%";
+  $("q").textContent = q;
+  $("opts").innerHTML = opts.map((o, j) => `<button class="opt" data-j="${j}"><b>${"ABCD"[j]}</b>${o}</button>`).join("");
+  $("opts").querySelectorAll(".opt").forEach(el => el.onclick = () => answer(+el.dataset.j, el));
+}
+function answer(j, el) {
+  if (locked) return; locked = true;
+  const right = B.test[qi][2];
+  if (j === right) { score++; el.classList.add("ok"); try { tg.HapticFeedback.notificationOccurred("success"); } catch(e){} }
+  else { el.classList.add("bad"); $("opts").children[right].classList.add("ok"); try { tg.HapticFeedback.notificationOccurred("error"); } catch(e){} }
+  setTimeout(() => { locked = false; qi++; if (qi < B.test.length) renderQ(); else finish(); }, 650);
+}
+function levelOf(s) { return B.levels.find(l => s <= l.max); }
+function finish() { $("tRun").classList.add("hidden"); $("tDone").classList.remove("hidden"); showResult(); window.scrollTo(0,0); }
+function showResult() {
+  const lv = levelOf(score), g = B.groups.find(x => x.id === lv.group);
+  $("rCefr").textContent = lv.cefr; $("rScore").textContent = tr("score")(score, B.test.length);
+  $("rLevel").textContent = lv.level;
+  $("rGroup").innerHTML = rowHtml(g);
+}
+$("tStart").onclick = () => { haptic("medium"); qi = 0; score = 0; $("tIntro").classList.add("hidden"); $("tRun").classList.remove("hidden"); renderQ(); };
+$("tQuit").onclick = () => { $("tRun").classList.add("hidden"); $("tIntro").classList.remove("hidden"); };
+$("rJoin").onclick = () => { haptic("medium"); const g = levelOf(score).group; toBot({type:"group", group:g}, `g_${g}`); };
+$("rSend").onclick = () => { haptic("medium"); toBot({type:"test", score}, `t_${score}`); };
+
+/* ---- groups ---- */
+function rowHtml(g) {
+  const c = B.courses.find(x => x.id === g.course);
+  const total = 12, filled = total - g.seats;
+  const dots = Array.from({length:8}, (_, i) => `<i class="${i < Math.round(filled / total * 8) ? "f" : ""}"></i>`).join("");
+  return `<div class="row" data-id="${g.id}">
+    <div class="tm">${B.slots[g.slot].split(" – ")[0]}<small>${B.days[g.days][lang]}</small></div>
+    <div class="info"><b>${g.level}</b><span>${c.name}</span></div>
+    <div class="seats"><div class="dots">${dots}</div><span class="${g.seats <= 3 ? "hot" : ""}">${tr("seats")(g.seats)}</span></div>
+  </div>`;
+}
+function renderRows() {
+  const list = B.groups.filter(g => day === "all" || g.days === day).sort((a, b) => a.slot - b.slot);
+  $("rows").innerHTML = list.length ? list.map(rowHtml).join("") : `<div class="empty">${tr("noGroups")}</div>`;
+  document.querySelectorAll(".row").forEach(el => el.onclick = () => openSheet(el.dataset.id));
+}
+document.querySelectorAll("#dayToggle button").forEach(b => b.onclick = () => {
+  haptic(); day = b.dataset.d;
+  document.querySelectorAll("#dayToggle button").forEach(x => x.classList.toggle("on", x === b)); renderRows();
+});
+let sheetG = null;
+function openSheet(id) {
+  haptic("medium"); sheetG = B.groups.find(g => g.id === id);
+  const c = B.courses.find(x => x.id === sheetG.course);
+  $("sLevel").textContent = sheetG.level; $("sCourse").textContent = c.name + " · " + c.levels;
+  const m = lang === "ru" ? (MRU[sheetG.start] || sheetG.start) : sheetG.start;
+  $("sKv").innerHTML = `<span>${tr("kDays")}</span><b>${B.days[sheetG.days][lang]}</b><span>${tr("kTime")}</span><b>${B.slots[sheetG.slot]}</b>
+    <span>${tr("kSeats")}</span><b>${sheetG.seats}</b><span>${tr("kStart")}</span><b>${m}</b><span>${tr("kRoom")}</span><b>${loc(B.address)}</b>`;
+  $("veil").classList.add("on"); $("sheet").classList.add("on");
+}
+$("veil").onclick = () => { $("veil").classList.remove("on"); $("sheet").classList.remove("on"); };
+$("sJoin").onclick = () => { haptic("heavy"); toBot({type:"group", group:sheetG.id}, `g_${sheetG.id}`); };
+
+/* ---- courses ---- */
+function renderCourses() {
+  $("courses").innerHTML = B.courses.map(c => `<div class="course"><div class="top"><h3>${c.name}</h3><span class="lv">${c.levels}</span></div><p>${loc(c.desc)}</p><button class="link" data-c="${c.id}">${tr("viewGroups")}</button></div>`).join("");
+  $("courses").querySelectorAll(".link").forEach(b => b.onclick = () => {
+    haptic(); show("groups"); day = "all";
+    document.querySelectorAll("#dayToggle button").forEach(x => x.classList.toggle("on", x.dataset.d === "all"));
+    const list = B.groups.filter(g => g.course === b.dataset.c);
+    $("rows").innerHTML = list.length ? list.map(rowHtml).join("") : `<div class="empty">${tr("noGroups")}</div>`;
+    document.querySelectorAll(".row").forEach(el => el.onclick = () => openSheet(el.dataset.id));
+  });
+}
+
+fetch("brand.json").then(r => r.json()).then(data => {
+  B = data; applyLang();
+  const tab = params.get("tab"); if (tab === "groups" || tab === "courses") show(tab);
+});
+</script>
+</body>
+</html>
